@@ -1,16 +1,36 @@
 <template>
   <div style="margin-left:56px">
-    <div class="custom_container">
+    <div class="custom_container mt-10">
       <template>
         <v-data-table
           :headers="headers"
-          :items="items"
+          :items="itemFiltered"
           sort-by="calories"
-          class="elevation-1"
+          class="elevation-1 pt-4"
         >
           <template v-slot:top>
             <v-toolbar flat>
-              <v-toolbar-title>Locations</v-toolbar-title>
+              <!-- <v-toolbar-title>Locations</v-toolbar-title> -->
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    v-model="filteredItem.name"
+                    label="Name"
+                  ></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    v-model="filteredItem.type"
+                    label="Type"
+                  ></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    v-model="filteredItem.dimension"
+                    label="Dimension"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
               <v-dialog v-model="dialog" max-width="500px">
@@ -129,12 +149,35 @@ export default {
       name: "",
       type: "",
       dimension: ""
+    },
+    filteredItem: {
+      name: "",
+      type: "",
+      dimension: ""
     }
   }),
 
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New location" : "Edit Item";
+    },
+    itemFiltered() {
+      let cloneItems = this.items.filter(item => {
+        if (
+          item.name
+            .toLowerCase()
+            .includes(this.filteredItem.name.toLowerCase()) &&
+          item.type
+            .toLowerCase()
+            .includes(this.filteredItem.type.toLowerCase()) &&
+          item.dimension
+            .toLowerCase()
+            .includes(this.filteredItem.dimension.toLowerCase())
+        )
+          return item;
+      });
+
+      return cloneItems;
     }
   },
 

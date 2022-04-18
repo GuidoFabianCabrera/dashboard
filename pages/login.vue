@@ -69,7 +69,7 @@ export default {
         });
         this.$cookies.set("token", data.access_token);
         this.$repository.request.setToken(data.access_token, "Bearer");
-        this.$router.push("dashboard/characters");
+        this.$router.push("/dashboard/characters");
       } catch (error) {
         console.log(error);
       }

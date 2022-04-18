@@ -1,18 +1,63 @@
 <template>
   <div style="margin-left:56px">
-    <div class="custom_container">
+    <div class="custom_container mt-10 ">
       <template>
         <v-data-table
           :headers="headers"
-          :items="items"
+          :items="itemFiltered"
           sort-by="calories"
-          class="elevation-1"
+          class="elevation-1 pt-4"
         >
           <template v-slot:top>
             <v-toolbar flat>
-              <v-toolbar-title>Characters</v-toolbar-title>
+              <!-- <v-toolbar-title>Characters</v-toolbar-title> -->
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    label="Name"
+                    v-model="filteredItem.name"
+                  ></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    label="Status"
+                    v-model="filteredItem.status"
+                  ></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    label="Species"
+                    v-model="filteredItem.species"
+                  ></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    label="Type"
+                    v-model="filteredItem.type"
+                  ></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    label="Gender"
+                    v-model="filteredItem.gender"
+                  ></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    label="Origin"
+                    v-model="filteredItem.origin.name"
+                  ></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-text-field
+                    label="Location"
+                    v-model="filteredItem.location.name"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
               <v-divider class="mx-4" inset vertical></v-divider>
               <v-spacer></v-spacer>
+
               <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -166,12 +211,58 @@ export default {
       gender: "",
       origin: { name: "" },
       location: { name: "" }
+    },
+    filteredItem: {
+      name: "",
+      status: "",
+      species: "",
+      type: "",
+      gender: "",
+      origin: { name: "" },
+      location: { name: "" }
     }
   }),
 
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Character" : "Edit Item";
+    },
+    itemFiltered() {
+      // let cloneItems = this.items.slice();
+      let cloneItems = this.items.filter(item => {
+        if (
+          item.name
+            .toLowerCase()
+            .includes(this.filteredItem.name.toLowerCase()) &&
+          item.status
+            .toLowerCase()
+            .includes(this.filteredItem.status.toLowerCase()) &&
+          item.species
+            .toLowerCase()
+            .includes(this.filteredItem.species.toLowerCase()) &&
+          item.type
+            .toLowerCase()
+            .includes(this.filteredItem.type.toLowerCase()) &&
+          item.gender
+            .toLowerCase()
+            .includes(this.filteredItem.gender.toLowerCase()) &&
+          item.origin.name
+            .toLowerCase()
+            .includes(this.filteredItem.origin.name.toLowerCase()) &&
+          item.location.name
+            .toLowerCase()
+            .includes(this.filteredItem.location.name.toLowerCase())
+        )
+          return item;
+        // return item.name
+        //   .toLowerCase()
+        //   .includes(this.filteredItem.name.toLowerCase());
+      });
+      // console.log(cloneItems, "hoa");
+      // let cloneItems = this.items.filter(el => {
+      //   if (el.name == this.filteredItem.name) return el;
+      // });
+      return cloneItems;
     }
   },
 
@@ -187,7 +278,6 @@ export default {
   mounted() {
     this.initialize();
   },
-
   methods: {
     async initialize() {
       try {
