@@ -167,9 +167,9 @@ export default {
           item.episode
             .toLowerCase()
             .includes(this.filteredItem.episode.toLowerCase()) &&
-          item.episode
+          item.name
             .toLowerCase()
-            .includes(this.filteredItem.episode.toLowerCase()) &&
+            .includes(this.filteredItem.name.toLowerCase()) &&
           item.air_date
             .toLowerCase()
             .includes(this.filteredItem.air_date.toLowerCase())
