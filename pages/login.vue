@@ -49,12 +49,12 @@
 export default {
   data: () => ({
     valid: true,
-    email: "",
+    email: "admin@admin.com",
     emailRules: [
       v => !!v || "E-mail is required",
       v => /.+@.+\..+/.test(v) || "E-mail must be valid"
     ],
-    password: "",
+    password: "123456",
     passwordRules: [
       v => !!v || "Password is required",
       v => (v && v.length >= 6) || "Password must be more than 6 characters"
